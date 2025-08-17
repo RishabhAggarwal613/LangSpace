@@ -1,4 +1,6 @@
+// src/components/home/FeatureGrid.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -11,6 +13,7 @@ const features = [
       </svg>
     ),
     to: "/ai-chat",
+    tint: "from-orange-600 to-amber-500",
   },
   {
     title: "Pronunciation Coach",
@@ -22,6 +25,7 @@ const features = [
       </svg>
     ),
     to: "/ai-practice",
+    tint: "from-amber-600 to-orange-500",
   },
   {
     title: "Tutor Path",
@@ -34,6 +38,7 @@ const features = [
       </svg>
     ),
     to: "/ai-tutor",
+    tint: "from-orange-500 to-amber-400",
   },
   {
     title: "Games",
@@ -45,6 +50,7 @@ const features = [
       </svg>
     ),
     to: "/ai-game",
+    tint: "from-amber-500 to-orange-600",
   },
 ];
 
@@ -52,23 +58,34 @@ export default function FeatureGrid() {
   return (
     <section id="features" className="py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-semibold">What you can do</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold">
+          <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent">
+            What you can do
+          </span>
+        </h2>
+
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {features.map((f) => (
-            <a
-              key={f.title}
-              href={f.to}
-              className="group rounded-2xl border p-5 hover:shadow-lg transition"
-            >
-              <div className="size-10 grid place-items-center rounded-xl border mb-4">
-                {f.icon}
+            <Link key={f.title} to={f.to} className="group focus:outline-none">
+              <div className={`rounded-2xl p-[1px] bg-gradient-to-br ${f.tint} shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5`}>
+                <div className="rounded-2xl p-5 bg-neutral-900/70 backdrop-blur ring-1 ring-white/10 group-hover:bg-neutral-900/80 transition-colors">
+                  <div
+                    className={`size-10 grid place-items-center rounded-xl mb-4 text-white bg-gradient-to-br ${f.tint} ring-1 ring-white/10`}
+                    aria-hidden="true"
+                  >
+                    {f.icon}
+                  </div>
+                  <h3 className="font-semibold text-neutral-100">{f.title}</h3>
+                  <p className="text-sm text-neutral-300 mt-1">{f.desc}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm text-amber-300/90 group-hover:text-amber-200 transition-colors">
+                    Explore
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  </span>
+                </div>
               </div>
-              <h3 className="font-medium">{f.title}</h3>
-              <p className="text-sm opacity-80 mt-1">{f.desc}</p>
-              <span className="mt-3 inline-block text-sm opacity-80 group-hover:opacity-100">
-                Explore →
-              </span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
