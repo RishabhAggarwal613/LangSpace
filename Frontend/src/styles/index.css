@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+/* LangSpace black–orange */
+@theme {
+  --brand: #ff7a00;
+}
+
+html, body, #root { height: 100%; }
+
+.auth-page {
+  @apply min-h-dvh grid place-items-center px-4
+         bg-gradient-to-b from-black to-[#0b0b0f] text-white;
+}
+
+.auth-card {
+  @apply w-full max-w-sm rounded-2xl p-6 grid gap-4
+         bg-[#111318]/80 backdrop-blur
+         border border-orange-500/20
+         shadow-xl shadow-black/30;
+}
+
+.auth-title { @apply text-xl font-semibold text-white; }
+
+.auth-divider { @apply flex items-center gap-3 my-2; }
+.auth-divider .line { @apply h-px bg-white/10 flex-1; }
+.auth-divider .text { @apply text-xs text-white/60; }
+
+.btn-primary {
+  @apply bg-orange-500 hover:bg-orange-600 text-black
+         font-medium shadow hover:shadow-lg transition;
+}
+
+.btn-outline {
+  @apply border border-orange-500/40 text-orange-300
+         hover:bg-orange-500/10;
+}
+
+/* Dark inputs without touching your Input.jsx API */
+.input-dark input,
+.input-dark textarea {
+  @apply bg-transparent text-white placeholder-white/40
+         border border-white/15 rounded-xl
+         px-3 py-2
+         focus:outline-none focus:ring-2 focus:ring-orange-500/40
+         focus:border-orange-500/50;
+}
+
+.auth-subtle { @apply text-sm text-white/70; }
+.auth-link { @apply underline text-orange-300 hover:text-orange-200; }

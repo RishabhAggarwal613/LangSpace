@@ -1,135 +1,115 @@
 import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 
 export default function AboutBlock() {
-  const [mode, setMode] = useState("chat"); // chat | coach | game
+  const [tab, setTab] = useState("chat");
 
-  const tabs = [
-    { id: "chat", label: "Chat" },
-    { id: "coach", label: "Coach" },
-    { id: "game", label: "Game" },
-  ];
+  const tabs = useMemo(
+    () => [
+      { id: "chat", label: "AI Chat" },
+      { id: "coach", label: "Pronunciation Coach" },
+      { id: "game", label: "Practice Game" },
+    ],
+    []
+  );
+
+  const activeIndex = tabs.findIndex((t) => t.id === tab);
+  const indicatorStyle = {
+    width: `${100 / tabs.length}%`,
+    transform: `translateX(${activeIndex * 100}%)`,
+  };
 
   return (
-    <section className="py-12 md:py-16">
-      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-8 items-center">
-        {/* Left column */}
+    <section id="about" className="py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-10 items-center">
+        {/* Left: Intro */}
         <div className="order-2 lg:order-1">
-          <h2 className="text-2xl md:text-3xl font-semibold">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent">
               Why LangSpace?
             </span>
           </h2>
-          <p className="mt-3 text-neutral-300 max-w-prose">
-            Conversation, coaching, and play — all in one flow. We help you practice daily,
-            get quick feedback, and keep momentum with bite‑size games.
+
+          <p className="mt-4 text-sm md:text-base text-slate-300">
+            LangSpace is an AI-powered language studio. Speak with an{" "}
+            <span className="text-amber-400 font-medium">AI conversation partner</span>, polish your{" "}
+            <span className="text-amber-400 font-medium">pronunciation & accent</span>, and level up through{" "}
+            <span className="text-amber-400 font-medium">gamified challenges</span>. Your progress is
+            tracked on a personal dashboard so practice becomes a habit.
           </p>
 
-          {/* Feature grid */}
-          <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <li className="flex items-start gap-3 rounded-2xl p-3 ring-1 ring-white/10 bg-white/5">
-              <span className="inline-grid place-items-center size-8 rounded-xl bg-gradient-to-br from-orange-600 to-amber-500 text-white">
-                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M2 5h20v2H2zM2 11h20v2H2zM2 17h20v2H2z"/></svg>
-              </span>
-              <div>
-                <div className="font-medium">Real conversation</div>
-                <div className="text-sm opacity-80">Voice or text with instant AI replies</div>
-              </div>
-            </li>
-            <li className="flex items-start gap-3 rounded-2xl p-3 ring-1 ring-white/10 bg-white/5">
-              <span className="inline-grid place-items-center size-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 text-white">
-                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 7L2 14l10 5 10-5-10-5Z"/></svg>
-              </span>
-              <div>
-                <div className="font-medium">Actionable coaching</div>
-                <div className="text-sm opacity-80">Pronunciation hints & grammar nudges</div>
-              </div>
-            </li>
-            <li className="flex items-start gap-3 rounded-2xl p-3 ring-1 ring-white/10 bg-white/5">
-              <span className="inline-grid place-items-center size-8 rounded-xl bg-gradient-to-br from-sky-600 to-indigo-500 text-white">
-                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              </span>
-              <div>
-                <div className="font-medium">Games & streaks</div>
-                <div className="text-sm opacity-80">Stay motivated with XP and mini‑wins</div>
-              </div>
-            </li>
-            <li className="flex items-start gap-3 rounded-2xl p-3 ring-1 ring-white/10 bg-white/5">
-              <span className="inline-grid place-items-center size-8 rounded-xl bg-gradient-to-br from-rose-600 to-pink-500 text-white">
-                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M12 21.35 10.55 20.03C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.53L12 21.35z"/></svg>
-              </span>
-              <div>
-                <div className="font-medium">Built for busy days</div>
-                <div className="text-sm opacity-80">Short sessions that fit your schedule</div>
-              </div>
-            </li>
+          <ul className="mt-6 space-y-3">
+            <Feature
+              title="Real conversations"
+              desc="Context-aware chats with instant feedback on fluency, grammar, and word choice."
+              icon="chat"
+            />
+            <Feature
+              title="Pronunciation scoring"
+              desc="Per-phoneme scoring, stress hints, and slow-down playback to copy native rhythm."
+              icon="graph"
+            />
+            <Feature
+              title="Play to practice"
+              desc="Timed prompts, streaks, and XP that make short sessions surprisingly addictive."
+              icon="bolt"
+            />
+            <Feature
+              title="Built for busy people"
+              desc="Bite-sized lessons, notes, and quick goals you can finish in minutes."
+              icon="clock"
+            />
           </ul>
 
-          {/* Micro‑stats */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            {[
-              { k: "Avg session", v: "6 min" },
-              { k: "Daily streaks", v: "1k+" },
-              { k: "Voice ready", v: "TTS/STT" },
-              { k: "Learners", v: "Worldwide" },
-            ].map((s) => (
-              <div key={s.k} className="rounded-xl ring-1 ring-white/10 bg-white/5 p-3">
-                <div className="text-xs opacity-70">{s.k}</div>
-                <div className="text-lg font-semibold">{s.v}</div>
-              </div>
-            ))}
+          {/* CTAs (anchors to avoid Router dependency) */}
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a
+              href="/chat"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-400 text-black font-semibold shadow hover:opacity-95 transition"
+            >
+              Start a Conversation →
+            </a>
+            <a
+              href="/practice"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 border border-slate-700 text-slate-200 hover:bg-slate-800/60 transition"
+            >
+              Try a Quick Drill
+            </a>
           </div>
 
-          {/* CTA */}
-          <div className="mt-6 flex flex-wrap gap-2">
-            <a href="/ai-chat" className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white ring-1 ring-white/10">Try a demo</a>
-            <a href="/ai-practice" className="px-4 py-2 rounded-xl ring-1 ring-white/15 bg-white/5 hover:bg-white/10">Go to Practice</a>
-          </div>
+          <p className="mt-3 text-xs text-slate-400">
+            Also available: <a href="/tutor" className="underline decoration-amber-400/60 hover:text-amber-300">AI Tutor</a> ·{" "}
+            <a href="/dashboard" className="underline decoration-amber-400/60 hover:text-amber-300">Dashboard</a>
+          </p>
         </div>
 
-        {/* Right column — interactive showcase */}
+        {/* Right: Tabs + preview */}
         <div className="order-1 lg:order-2">
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden ring-1 ring-white/10 bg-neutral-950">
-            {/* Ambient gradient */}
-            <motion.div
-              aria-hidden
-              className="absolute -inset-40 bg-[conic-gradient(from_180deg_at_50%_50%,#f97316,transparent_30%,#f59e0b,transparent_60%)] opacity-40"
-              animate={{ rotate: [0, 20, 0] }}
-              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* Tab pill */}
-            <div className="absolute top-3 left-3 right-3 mx-auto w-fit rounded-full bg-neutral-900/70 backdrop-blur ring-1 ring-white/10 px-1 py-1 flex gap-1">
+          <div className="rounded-2xl border border-slate-800 bg-gradient-to-b from-slate-900/60 to-black p-3 shadow-lg">
+            {/* Tabs */}
+            <div className="relative rounded-xl bg-slate-900/60 p-1 border border-slate-800 flex">
+              {/* Slider */}
+              <span
+                className="absolute inset-y-1 left-1 rounded-lg bg-gradient-to-r from-orange-500 to-amber-400 transition-transform duration-300"
+                style={indicatorStyle}
+              />
               {tabs.map((t) => (
                 <button
                   key={t.id}
-                  onClick={() => setMode(t.id)}
-                  className={`text-xs px-3 py-1.5 rounded-full transition ${
-                    mode === t.id
-                      ? "bg-gradient-to-r from-orange-600 to-amber-600 text-white"
-                      : "text-neutral-300 hover:bg-white/10"
+                  onClick={() => setTab(t.id)}
+                  className={`relative z-10 flex-1 text-sm md:text-base rounded-lg px-3 py-2 font-medium transition ${
+                    tab === t.id ? "text-black" : "text-slate-300 hover:text-white"
                   }`}
-                  aria-pressed={mode === t.id}
                 >
                   {t.label}
                 </button>
               ))}
             </div>
 
-            {/* Scenes */}
-            <div className="absolute inset-0 p-4 sm:p-6 grid place-items-center">
-              {mode === "chat" && <ShowChat />}
-              {mode === "coach" && <ShowCoach />}
-              {mode === "game" && <ShowGame />}
-            </div>
-
-            {/* Bottom caption */}
-            <div className="absolute bottom-4 left-4 right-4 rounded-2xl px-4 py-3 bg-neutral-900/70 backdrop-blur ring-1 ring-white/10 text-neutral-100">
-              <p className="text-sm">
-                {mode === "chat" && "Speak naturally. The AI keeps the conversation going."}
-                {mode === "coach" && "Instant hints: pronunciation, stress, and grammar focus."}
-                {mode === "game" && "Mini games that grade you and send scores to the dashboard."}
-              </p>
+            {/* Preview area */}
+            <div className="mt-4">
+              {tab === "chat" && <ChatPreview />}
+              {tab === "coach" && <CoachPreview />}
+              {tab === "game" && <GamePreview />}
             </div>
           </div>
         </div>
@@ -138,99 +118,105 @@ export default function AboutBlock() {
   );
 }
 
-/* ---------- Visual scenes (pure UI, no data fetching) ---------- */
-function Shell({ children, title, accent = "from-orange-600 to-amber-500" }) {
+/* ---------- Subcomponents ---------- */
+
+function Feature({ title, desc, icon }) {
   return (
-    <div className="w-full max-w-[560px]">
-      <div className="rounded-2xl ring-1 ring-white/10 bg-white/5 overflow-hidden">
-        <div className={`h-10 flex items-center gap-2 px-3 text-sm font-medium bg-gradient-to-r ${accent} text-white`}>
-          <div className="size-2.5 rounded-full bg-white/90" /> {title}
-        </div>
-        <div className="p-3 sm:p-4">{children}</div>
+    <li className="flex items-start gap-3">
+      <span className="mt-0.5 inline-grid place-items-center rounded-lg bg-orange-500/15 text-amber-300 p-2 border border-orange-500/30">
+        {icon === "chat" && (
+          <svg viewBox="0 0 24 24" className="w-5 h-5"><path d="M3 5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8l-5 4V7a2 2 0 0 1 2-2z" fill="currentColor"/></svg>
+        )}
+        {icon === "graph" && (
+          <svg viewBox="0 0 24 24" className="w-5 h-5"><path d="M3 12h2l2 6 2-12 2 8 2-4 2 6 2-10h2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        )}
+        {icon === "bolt" && (
+          <svg viewBox="0 0 24 24" className="w-5 h-5"><path d="M6 3h12l-6 9h6l-10 9 3-9H6z" fill="currentColor"/></svg>
+        )}
+        {icon === "clock" && (
+          <svg viewBox="0 0 24 24" className="w-5 h-5"><path d="M12 8v5l3 3M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        )}
+      </span>
+      <div>
+        <p className="text-slate-100 font-medium">{title}</p>
+        <p className="text-slate-400 text-sm">{desc}</p>
+      </div>
+    </li>
+  );
+}
+
+function ChatPreview() {
+  return (
+    <div className="rounded-xl border border-slate-800 p-4 bg-slate-950/60">
+      <div className="space-y-3">
+        <Bubble who="ai" text="Hey! Let’s talk about your day 👋 Tell me one highlight." />
+        <Bubble who="you" text="I presented a demo—felt nervous but it went well!" />
+        <Bubble who="ai" text="Nice! Try “landed well” or “was a hit” for a stronger tone." />
       </div>
     </div>
   );
 }
 
-function ShowChat() {
-  const msgs = useMemo(() => [
-    { role: "ai", text: "Hi! Tell me about your morning routine." },
-    { role: "you", text: "I wake up at 7 and make coffee." },
-    { role: "ai", text: "Nice! Do you exercise before work?" },
-  ], []);
+function CoachPreview() {
+  const bars = [8, 16, 12, 20, 10, 18, 6, 14, 22, 9, 15];
   return (
-    <Shell title="Conversation" accent="from-sky-600 to-indigo-500">
-      <ul className="space-y-2">
-        {msgs.map((m, i) => (
-          <li key={i} className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${m.role === "you" ? "ml-auto bg-gradient-to-r from-orange-600 to-amber-500 text-white" : "bg-white/10"}`}>
-            {m.text}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-3 grid grid-cols-[1fr_auto_auto] gap-2 items-center">
-        <input readOnly value="Type or speak…" className="px-3 py-2 rounded-xl bg-neutral-950/60 ring-1 ring-white/10 text-xs text-neutral-300" />
-        <button className="px-3 py-2 rounded-xl ring-1 ring-white/10 bg-white/5 text-xs">🎤 Mic</button>
-        <button className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white text-xs">Send</button>
+    <div className="rounded-xl border border-slate-800 p-4 bg-slate-950/60">
+      <p className="text-slate-300 text-sm">
+        Say: <span className="text-white font-medium">“schedule”</span>
+      </p>
+      <div className="mt-3 h-16 rounded-lg border border-slate-800 overflow-hidden">
+        <div className="flex items-end gap-1 h-full px-2">
+          {bars.map((h, i) => (
+            <span
+              key={i}
+              className="w-1.5 bg-amber-400/80 rounded-t animate-pulse"
+              style={{ height: h }}
+            />
+          ))}
+        </div>
       </div>
-    </Shell>
+      <div className="mt-3 text-xs text-slate-400">
+        Feedback: /sked-jool/ ✓ • stress on <span className="text-amber-300">sched</span> • soften the “d”.
+      </div>
+    </div>
   );
 }
 
-function ShowCoach() {
-  const chips = ["Stress on syllable 2", "Present simple for habits", "/θ/ not /t/"];
+function GamePreview() {
   return (
-    <Shell title="Coaching" accent="from-emerald-600 to-teal-500">
-      <div className="grid sm:grid-cols-2 gap-3">
-        <div className="rounded-xl ring-1 ring-white/10 p-3 bg-white/5">
-          <div className="text-xs opacity-70">Pronunciation</div>
-          <div className="mt-2">
-            <div className="text-sm">“think” → /θɪŋk/</div>
-            <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-400" style={{ width: "78%" }} />
-            </div>
-          </div>
-        </div>
-        <div className="rounded-xl ring-1 ring-white/10 p-3 bg-white/5">
-          <div className="text-xs opacity-70">Grammar Focus</div>
-          <ul className="mt-2 space-y-1 text-sm list-disc pl-5">
-            <li>Habit statement: “I <b>drink</b> coffee at 7.”</li>
-            <li>3rd person: “She <b>drinks</b> coffee.”</li>
-          </ul>
-        </div>
+    <div className="rounded-xl border border-slate-800 p-4 bg-slate-950/60">
+      <div className="flex items-center justify-between">
+        <p className="text-slate-200 font-medium">Speed Speak — Round 2</p>
+        <span className="text-xs text-amber-300">00:18</span>
       </div>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {chips.map((c) => (
-          <span key={c} className="text-xs px-2 py-1 rounded-lg bg-white/10 ring-1 ring-white/10">{c}</span>
-        ))}
+      <p className="mt-2 text-lg font-semibold text-white">
+        “I’ll circle back with an update by tomorrow.”
+      </p>
+      <div className="mt-3 flex items-center gap-3">
+        <span className="text-xs text-slate-400">Accuracy</span>
+        <div className="flex-1 h-2 rounded-full bg-slate-800 overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-orange-500 to-amber-400 transition-[width] duration-700" style={{ width: "78%" }} />
+        </div>
+        <span className="text-xs text-amber-300">78%</span>
       </div>
-    </Shell>
+    </div>
   );
 }
 
-function ShowGame() {
+function Bubble({ who, text }) {
+  const isAI = who === "ai";
   return (
-    <Shell title="Grammar Game" accent="from-rose-600 to-pink-500">
-      <div className="grid sm:grid-cols-[auto,1fr] gap-3 items-center">
-        <div className="grid place-items-center">
-          {/* Donut */}
-          <div className="relative size-24">
-            <div className="absolute inset-0 rounded-full" style={{ background: "conic-gradient(#f97316 270deg, rgba(255,255,255,.2) 0)" }} />
-            <div className="absolute inset-2 rounded-full bg-neutral-950/80" />
-            <div className="absolute inset-0 grid place-items-center text-white text-lg font-bold">90%</div>
-          </div>
-        </div>
-        <div className="rounded-xl ring-1 ring-white/10 p-3 bg-white/5 text-sm">
-          <div className="opacity-70">Fill the blank</div>
-          <div className="mt-1 font-medium">I ____ coffee every morning.</div>
-          <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
-            {["drink", "drank", "drunk"].map((w, i) => (
-              <span key={w} className={`px-2 py-1 rounded-full ring-1 ring-white/10 ${i === 0 ? "bg-gradient-to-r from-orange-600 to-amber-600 text-white" : "bg-white/10"}`}>{w}</span>
-            ))}
-          </div>
-          <div className="mt-2 text-xs opacity-70">Auto‑graded • Score synced to dashboard</div>
-        </div>
+    <div className={`flex ${isAI ? "" : "justify-end"}`}>
+      <div
+        className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+          isAI
+            ? "bg-slate-800/70 text-slate-100 border border-slate-700"
+            : "bg-gradient-to-r from-orange-500 to-amber-400 text-black"
+        }`}
+      >
+        {text}
       </div>
-    </Shell>
+    </div>
   );
 }
 
